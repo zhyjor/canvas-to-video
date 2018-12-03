@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<video id="video"  width="200" height="300" controls="true"  autoplay="autoplay" src="./video.mp4">
+
+</video>
+<canvas id="myCanvas" width="700" height="300"></canvas>
+</body>
+<script type="text/javascript">
+var video = document.getElementById("video");
+var myCanvas = document.getElementById("myCanvas");
+var ctx = myCanvas.getContext('2d');
+
+function animate() {
+    ctx.drawImage(video, 0, 0, 200, 300)
+    var data1 = ctx.getImageData(0, 0, 200, 300);
+    var pilexs = data1.data;
+    for (var i = 0; i < pilexs.length; i += 4) {
+        var r = pilexs[i];
+        var g = pilexs[i + 1];
+        var b = pilexs[i + 2];
+        var rgb = (r + g + b) / 3;
+        pilexs[i] = rgb;
+        pilexs[i + 1] = rgb;
+        pilexs[i + 2] = rgb;
+    }
+    ctx.putImageData(data1, 200, 0);
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</html>
